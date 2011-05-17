@@ -189,6 +189,9 @@ def convert_fermentables_from_csv():
 
     conn.commit()
     cur.close()
+
+def FtoC(temp):
+    return int(5.0 / 9.0 * float(temp - 32))
     
 def convert_yeasts_from_csv():
     conn = sqlite3.connect(sqlite_dbpath)
@@ -204,13 +207,16 @@ def convert_yeasts_from_csv():
             cur.execute('''insert into yeast_types (type) VALUES (?)''', 
                 (row[cols.index('type')].strip(), ))
             type_id = cur.lastrowid
+        temp_range = row[cols.index('temp range')].strip().split('-')
+        temp_range = u"%s-%s F (%s-%s C)" % (temp_range[0], temp_range[1],
+            FtoC(int(temp_range[0])), FtoC(int(temp_range[1])))
         cur.execute('''insert into yeasts (type_id, supplier, name, 
             supplier_number, flocculation, attenuation, temp_range,
             alcohol_tolerance, notes) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)''',
                 (type_id, row[cols.index('supplier')].strip(),
                 row[cols.index('name')].strip(), row[cols.index('supplier number')].strip(), 
-                row[cols.index('flocculation')].strip(), row[cols.index('attenuation')].strip(), 
-                row[cols.index('temp range')].strip(), row[cols.index('alcohol tolerance')].strip(), 
+                row[cols.index('flocculation')].strip(), row[cols.index('attenuation')].strip() + '%', 
+                temp_range, row[cols.index('alcohol tolerance')].strip(), 
                 row[cols.index('notes')].strip()))
 
     conn.commit()
