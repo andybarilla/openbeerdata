@@ -16,4 +16,4 @@ Contributions are welcome!
 
 #Feedback
 
-Questions, comments, and feedback are welcome at [andybarilla@gmail.com](mailto:andybarilla@gmail.com?subject=Open Beer Database Library for Android on GitHub).
+Questions, comments, and feedback are welcome at [apb@fastmail.com](mailto:apb@fastmail.com?subject=Open Beer Database Library for Android on GitHub).
